@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      game_config: {
+        Row: {
+          active_words: string[]
+          all_words: string[]
+          continue_after_failure: boolean
+          created_at: string
+          id: string
+          session_active: boolean
+          timer_duration: number
+          timer_enabled: boolean
+          updated_at: string
+          words_per_game: number
+        }
+        Insert: {
+          active_words?: string[]
+          all_words?: string[]
+          continue_after_failure?: boolean
+          created_at?: string
+          id?: string
+          session_active?: boolean
+          timer_duration?: number
+          timer_enabled?: boolean
+          updated_at?: string
+          words_per_game?: number
+        }
+        Update: {
+          active_words?: string[]
+          all_words?: string[]
+          continue_after_failure?: boolean
+          created_at?: string
+          id?: string
+          session_active?: boolean
+          timer_duration?: number
+          timer_enabled?: boolean
+          updated_at?: string
+          words_per_game?: number
+        }
+        Relationships: []
+      }
+      players: {
+        Row: {
+          batch_no: string
+          completed_at: number | null
+          created_at: string
+          game_completed: boolean
+          id: string
+          name: string
+          started_at: number
+          total_time: number
+          updated_at: string
+          word_results: Json
+        }
+        Insert: {
+          batch_no: string
+          completed_at?: number | null
+          created_at?: string
+          game_completed?: boolean
+          id?: string
+          name: string
+          started_at?: number
+          total_time?: number
+          updated_at?: string
+          word_results?: Json
+        }
+        Update: {
+          batch_no?: string
+          completed_at?: number | null
+          created_at?: string
+          game_completed?: boolean
+          id?: string
+          name?: string
+          started_at?: number
+          total_time?: number
+          updated_at?: string
+          word_results?: Json
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
