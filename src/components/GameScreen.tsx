@@ -154,6 +154,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     } else if (key === 'BACKSPACE') {
       setCurrentGuess(prev => prev.slice(0, -1));
     } else if (/^[A-Z]$/.test(key) && currentGuess.length < 5) {
+      playKeySound();
       setCurrentGuess(prev => prev + key);
     }
   }, [submitGuess, currentGuess, message]);
