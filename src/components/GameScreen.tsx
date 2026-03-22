@@ -66,6 +66,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const moveToNextWord = useCallback((newResults: WordResult[]) => {
     const nextIdx = currentWordIndex + 1;
     if (nextIdx >= words.length) {
+      playGameCompleteSound();
       onGameComplete(newResults, Date.now() - gameStartTime);
     } else {
       setCurrentWordIndex(nextIdx);
