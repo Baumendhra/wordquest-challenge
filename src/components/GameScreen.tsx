@@ -106,6 +106,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     const solved = currentGuess === currentWord;
     
     if (solved) {
+      playCorrectSound();
       setMessage('🎉 Correct!');
       const result: WordResult = {
         targetWord: currentWord,
