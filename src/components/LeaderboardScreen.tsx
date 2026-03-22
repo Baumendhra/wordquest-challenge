@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getLeaderboard } from '@/lib/gameStore';
+import { LeaderboardEntry } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 
 interface LeaderboardScreenProps {
@@ -7,13 +8,29 @@ interface LeaderboardScreenProps {
 }
 
 const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ onBack }) => {
-  const entries = getLeaderboard();
+  const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getLeaderboard().then(data => {
+      setEntries(data);
+      setLoading(false);
+    });
+  }, []);
 
   const formatTime = (ms: number) => {
     const s = Math.floor(ms / 1000);
     const m = Math.floor(s / 60);
     return `${m}:${(s % 60).toString().padStart(2, '0')}`;
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-muted-foreground font-mono">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-4 max-w-2xl mx-auto">
