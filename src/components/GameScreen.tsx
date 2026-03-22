@@ -121,6 +121,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
         moveToNextWord(newResults);
       }, 1200);
     } else if (newAttempts.length >= maxAttempts) {
+      playWrongSound();
       setMessage(`The word was: ${currentWord}`);
       const result: WordResult = {
         targetWord: currentWord,
