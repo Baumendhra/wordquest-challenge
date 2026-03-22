@@ -12,8 +12,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onAdminLogin }) => {
   const [batchNo, setBatchNo] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
@@ -22,7 +23,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onAdminLogin }) => {
       return;
     }
 
-    if (playerExists(batchNo.trim())) {
+    setLoading(true);
+    const exists = await playerExists(batchNo.trim());
+    setLoading(false);
+
+    if (exists) {
       setError('This Batch Number has already been used. Only one attempt per player.');
       return;
     }
@@ -66,8 +71,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onAdminLogin }) => {
             <p className="text-destructive text-sm font-medium">{error}</p>
           )}
 
-          <Button type="submit" className="w-full font-mono font-bold text-base" size="lg">
-            START GAME →
+          <Button type="submit" className="w-full font-mono font-bold text-base" size="lg" disabled={loading}>
+            {loading ? 'Checking...' : 'START GAME →'}
           </Button>
         </form>
 

@@ -3,6 +3,7 @@ import { evaluateGuess, isValidWord } from '@/lib/wordleLogic';
 import { LetterGuess, WordAttempt, WordResult } from '@/lib/types';
 import WordGrid from './WordGrid';
 import Keyboard from './Keyboard';
+import { playCorrectSound, playWrongSound, playGameCompleteSound, playInvalidSound, playKeySound } from '@/lib/sounds';
 
 interface GameScreenProps {
   words: string[];
@@ -65,6 +66,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const moveToNextWord = useCallback((newResults: WordResult[]) => {
     const nextIdx = currentWordIndex + 1;
     if (nextIdx >= words.length) {
+      playGameCompleteSound();
       onGameComplete(newResults, Date.now() - gameStartTime);
     } else {
       setCurrentWordIndex(nextIdx);
@@ -81,6 +83,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     if (!isValidWord(currentGuess)) {
       setShakeRow(true);
       setMessage('Invalid word');
+      playInvalidSound();
       setTimeout(() => { setShakeRow(false); setMessage(''); }, 600);
       return;
     }
@@ -104,6 +107,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     const solved = currentGuess === currentWord;
     
     if (solved) {
+      playCorrectSound();
       setMessage('🎉 Correct!');
       const result: WordResult = {
         targetWord: currentWord,
@@ -118,6 +122,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
         moveToNextWord(newResults);
       }, 1200);
     } else if (newAttempts.length >= maxAttempts) {
+      playWrongSound();
       setMessage(`The word was: ${currentWord}`);
       const result: WordResult = {
         targetWord: currentWord,
@@ -149,6 +154,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     } else if (key === 'BACKSPACE') {
       setCurrentGuess(prev => prev.slice(0, -1));
     } else if (/^[A-Z]$/.test(key) && currentGuess.length < 5) {
+      playKeySound();
       setCurrentGuess(prev => prev + key);
     }
   }, [submitGuess, currentGuess, message]);
