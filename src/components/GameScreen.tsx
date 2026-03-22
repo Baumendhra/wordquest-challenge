@@ -3,6 +3,7 @@ import { evaluateGuess, isValidWord } from '@/lib/wordleLogic';
 import { LetterGuess, WordAttempt, WordResult } from '@/lib/types';
 import WordGrid from './WordGrid';
 import Keyboard from './Keyboard';
+import { playCorrectSound, playWrongSound, playGameCompleteSound, playInvalidSound, playKeySound } from '@/lib/sounds';
 
 interface GameScreenProps {
   words: string[];
