@@ -82,6 +82,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     if (!isValidWord(currentGuess)) {
       setShakeRow(true);
       setMessage('Invalid word');
+      playInvalidSound();
       setTimeout(() => { setShakeRow(false); setMessage(''); }, 600);
       return;
     }
